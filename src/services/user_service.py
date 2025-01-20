@@ -2,9 +2,9 @@ from utils import remove_space
 from models.user_model import User
 
 
-users = {1: User('Jonathan Rodrigo', 17, 'jonathanferreirar@gmail.com'),
-         2: User('Paloma Franciny', 19, 'palomafranciny@gmail.com'),
-         3: User('Dedeia', 39, 'dedeia@gmail.com')}
+users = {1: User('Jonathan Rodrigo', 'jonathanferreirar@gmail.com', 'Teste*123'),
+         2: User('Paloma Franciny', 'palomafranciny@gmail.com', 'Teste*123'),
+         3: User('Dedeia', 'dedeia@gmail.com', 'Teste*123')}
 
 
 def get_all_users():
@@ -12,17 +12,18 @@ def get_all_users():
 
 
 def create_new_user(data):
-    if not all(key in data for key in ['name', 'age', 'email']):
-        return {"data": "Por favor insira nome, idade e email."}, 400
+    if not all(key in data for key in ['name', 'password', 'email']):
+        return {"data": "Por favor insira nome, password e email."}, 400
 
     for key, value in data.items():
-        value = remove_space(value)
+        value = remove_space(str(value))
         if not value:
             return {
                 "data": f'Por favor insira um valor válido para o campo ( {key} ).'
             }, 400
 
-    new_user = User(name=data['name'], age=data['age'], email=data['email'])
+    new_user = User(name=data['name'],
+                    password=data['password'], email=data['email'])
     users[len(users)+1] = new_user
 
     return {"data": new_user.to_dict()}, 201
