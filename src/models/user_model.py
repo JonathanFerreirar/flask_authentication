@@ -1,17 +1,26 @@
 from random import randrange
 
 
-class User:
-    def __init__(self, name, email, password):
-        self.name = name
-        self.email = email
-        self.password = password
-        self.id = randrange(0, 1000)
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
+from infra.base import Base
+
+
+class User(Base):
+    __tablename__ = "user"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str]
+    name: Mapped[str]
+    password: Mapped[str]
 
     def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
             "email": self.email,
-            "password": self.password,
+
         }
+
+    def __repr__(self) -> str:
+        return f"User(id={self.id!r}, name={self.name!r}, email={self.email!r})"

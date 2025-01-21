@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, Blueprint
 from routes import register_routes
 
 
@@ -8,11 +8,14 @@ class Config:
     PORT = 3001
 
 
+api = Blueprint('api', __name__, url_prefix='/api')
+
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    register_routes(api)
 
-    # Registra rotas
-    register_routes(app)
+    app.register_blueprint(api)
 
     return app

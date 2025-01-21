@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  pg-docker:
+    image: postgres
+    container_name: local_pgdb
+    restart: always
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_DB: etech
+      POSTGRES_PASSWORD: Teste*123
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+
+volumes:
+  local_pgdata:
