@@ -1,5 +1,6 @@
-from utils.validations import user_validations
 from models.user_model import User
+
+from utils.validations import user_validations
 from infra.database import get_database_session
 
 
@@ -25,6 +26,8 @@ def create_new_user(data):
                             password=data['password'], email=data['email'])
 
             database.add(new_user)
+            database.flush()
+            database.refresh(new_user)
 
             return {"data": new_user.to_dict()}, 201
 
@@ -43,6 +46,24 @@ def get_user_by_id(user_id):
                 return {"error": "Usuário não encontrado."}, 404
 
             return {"data": user.to_dict()}, 200
+
+    except Exception as e:
+        return {"error": str(e)}, 500
+
+
+def delete_user_by_id(user_id):
+    try:
+        with get_database_session() as database:
+
+            user = database.query(User).filter(User.id == user_id).first()
+
+            if user:
+                database.delete(user)
+                return {}, 204
+            else:
+                return {
+                    "error": "Usuário não encontrado."
+                }, 404
 
     except Exception as e:
         return {"error": str(e)}, 500

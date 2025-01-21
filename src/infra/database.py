@@ -1,10 +1,16 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
-from contextlib import contextmanager
 from typing import Generator
+from dotenv import dotenv_values
+from sqlalchemy import create_engine
+from contextlib import contextmanager
+from sqlalchemy.orm import Session, sessionmaker
+
+config = {
+    **dotenv_values(".env"),
+}
 
 
-DATABASE_URL = ""
+DATABASE_URL = config.get('DATABASE_URL')
+
 engine = create_engine(
     DATABASE_URL, pool_pre_ping=True)
 
