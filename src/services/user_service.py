@@ -1,5 +1,5 @@
 from models.user_model import User
-
+from utils.extentions import bcrypt
 from utils.validations import user_validations
 from infra.database import get_database_session
 
@@ -21,9 +21,11 @@ def create_new_user(data):
         return validation_error
     try:
         with get_database_session() as database:
+            hashed_password = bcrypt.generate_password_hash(
+                data['password']).decode('utf-8')
 
             new_user = User(name=data['name'],
-                            password=data['password'], email=data['email'])
+                            password=hashed_password, email=data['email'])
 
             database.add(new_user)
             database.flush()

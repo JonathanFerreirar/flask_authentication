@@ -22,5 +22,14 @@ class User(Base):
 
         }
 
+    def to_dict_complete(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "password": self.password
+
+        }
+
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, name={self.name!r}, email={self.email!r})"
