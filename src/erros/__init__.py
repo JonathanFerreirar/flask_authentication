@@ -1,0 +1,4 @@
+from .auth import ERRO_UNAUTHORIZED_USER
+from .users import ERRO_NOT_FOUND_USER
+
+__all__ = ["ERRO_UNAUTHORIZED_USER", "ERRO_NOT_FOUND_USER"]

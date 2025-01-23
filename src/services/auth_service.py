@@ -1,9 +1,24 @@
 from models.user_model import User
-from utils.extentions import bcrypt
+from utils.extentions import bcrypt, jwt
 from infra.database import get_database_session
+from erros import ERRO_UNAUTHORIZED_USER, ERRO_NOT_FOUND_USER
 from utils.validations import login_validations, user_validations
 
 from flask_jwt_extended import create_access_token
+
+erro_unauthorized, erro_unauthorized_status = ERRO_UNAUTHORIZED_USER
+erro__not_found, erro_status_not_found, = ERRO_NOT_FOUND_USER
+
+
+@jwt.user_lookup_loader
+def user_lookup_callback(_, jwt_data):
+    identity = jwt_data["sub"]
+    with get_database_session() as database:
+
+        user = database.query(User).filter_by(email=identity).first()
+        database.close()
+
+        return {"data": user.to_dict()}, 200
 
 
 def login_user(data):
@@ -18,14 +33,14 @@ def login_user(data):
             database.close()
 
             if not user:
-                return {"error": "not Found", "message": "user not found"}, 404
+                return {"error": erro__not_found['erro'], "message": erro__not_found['message']}, erro_status_not_found
 
             isCorrectPassword = bcrypt.check_password_hash(
                 user.password, data['password'])
 
             if isCorrectPassword:
 
-                access_token = create_access_token(identity=user.id)
+                access_token = create_access_token(identity=user.email)
 
                 return {
                     "data": {
@@ -34,8 +49,7 @@ def login_user(data):
                     }
                 }, 200
 
-            return {"error": "Unauthorized",
-                    "message": "Invalid email or password."}, 400
+            return {"error": erro_unauthorized['erro'], "message": erro_unauthorized['message']}, erro_unauthorized_status
 
     except Exception as e:
         return {"error": str(e)}, 500

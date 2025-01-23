@@ -1,11 +1,13 @@
 from flask import jsonify, request, Blueprint
-from services.user_service import get_all_users, get_user_by_id, delete_user_by_id
+from flask_jwt_extended import jwt_required, get_current_user
+from services.user_service import get_all_users, delete_user_by_id
 
 
 user_bp = Blueprint('user', __name__)
 
 
 @user_bp.route('/',  methods=['GET'])
+@jwt_required()
 def users():
     users = get_all_users()
 
@@ -13,12 +15,13 @@ def users():
 
 
 @user_bp.route('/<int:user_id>', methods=['GET', 'DELETE'])
+@jwt_required()
 def get_user(user_id):
     if request.method == 'DELETE':
         result, status = delete_user_by_id(user_id)
 
         return jsonify(result), status
 
-    result, status = get_user_by_id(user_id)
+    result, status = get_current_user()
 
     return jsonify(result), status
