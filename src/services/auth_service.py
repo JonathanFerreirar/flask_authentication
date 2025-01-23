@@ -1,10 +1,24 @@
 from models.user_model import User
-from utils.extentions import bcrypt, jwt
+from models.auth_model import TokenBlocklist
+
 from infra.database import get_database_session
-from erros import ERRO_NOT_FOUND_USER, ERRO__INVALID_EMAIL_OR_PASSWORD
+
+from utils.extentions import bcrypt, jwt
 from utils.validations import login_validations, user_validations
 
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, get_jwt
+
+from erros import ERRO_NOT_FOUND_USER, ERRO__INVALID_EMAIL_OR_PASSWORD, ERRO_ALREDY_EXIST_USER
+
+
+@jwt.token_in_blocklist_loader
+def check_if_token_revoked(_, jwt_payload: dict) -> bool:
+    jti = jwt_payload["jti"]
+
+    with get_database_session() as database:
+        token = database.query(TokenBlocklist).filter_by(jti=jti).first()
+
+        return token is not None
 
 
 @jwt.user_lookup_loader
@@ -14,8 +28,6 @@ def user_lookup_callback(_, jwt_data):
 
         user = database.query(User).filter_by(email=identity).first()
         database.close()
-
-        print('chegou foi aqui man')
 
         return user.to_dict()
 
@@ -61,6 +73,10 @@ def create_new_user(data):
         return validation_error
     try:
         with get_database_session() as database:
+            user = database.query(User).filter_by(email=data['email']).first()
+            if user:
+                return ERRO_ALREDY_EXIST_USER
+
             hashed_password = bcrypt.generate_password_hash(
                 data['password']).decode('utf-8')
 
@@ -82,3 +98,16 @@ def create_new_user(data):
 
     except Exception as e:
         return {"error": str(e)}, 500
+
+
+def logout_user():
+    jti = get_jwt()["jti"]
+
+    with get_database_session() as database:
+        database.add(TokenBlocklist(jti=jti))
+
+        return {
+            "data": {
+                "msg": "token revoked"
+            }
+        }, 200

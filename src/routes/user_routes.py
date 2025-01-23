@@ -1,11 +1,11 @@
+from erros import ERRO_UNAUTHORIZED_USER
+
 from flask import jsonify, request, Blueprint
 from flask_jwt_extended import jwt_required, get_current_user
 from services.user_service import get_all_users, delete_user_by_id
-from erros import ERRO_UNAUTHORIZED_USER
 
 
 user_bp = Blueprint('user', __name__)
-erro_unauthorized, erro_unauthorized_status = ERRO_UNAUTHORIZED_USER
 
 
 @user_bp.route('/',  methods=['GET'])

@@ -1,18 +1,21 @@
-from random import randrange
+from infra.base import Base
 
+from datetime import datetime
+from datetime import timezone
 
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
-from infra.base import Base
 
 
 class User(Base):
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[str] = mapped_column(unique=True, nullable=False)
     name: Mapped[str] = mapped_column(nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
+    email: Mapped[str] = mapped_column(unique=True, nullable=False)
+    create_at: Mapped[str] = mapped_column(
+        nullable=False, default=datetime.now(timezone.utc))
 
     def to_dict(self):
         return {

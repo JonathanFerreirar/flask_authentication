@@ -1,5 +1,5 @@
-from utils.extentions import bcrypt, jwt
 from config import create_app
+from utils.extentions import bcrypt, jwt
 
 app = create_app()
 bcrypt.init_app(app)
