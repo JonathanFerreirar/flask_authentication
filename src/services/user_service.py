@@ -1,4 +1,4 @@
-from models.user_model import User
+from models.users_model import User
 from infra.database import get_database_session
 
 from erros import ERRO_NOT_FOUND_USER

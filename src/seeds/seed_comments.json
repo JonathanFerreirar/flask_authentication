@@ -1,0 +1,152 @@
+[
+  {
+    "user": 1,
+    "etech": 1,
+    "comment": "Um conteúdo direto ao ponto, fácil de aplicar em projetos reais. Excelente!"
+  },
+  {
+    "user": 2,
+    "etech": 2,
+    "comment": "A explicação sobre o padrão de projeto foi incrível. Muito didática e objetiva."
+  },
+  {
+    "user": 3,
+    "etech": 3,
+    "comment": "Os exemplos práticos são o ponto alto deste material! Super recomendo."
+  },
+  {
+    "user": 4,
+    "etech": 4,
+    "comment": "Gostei da organização do e-book. As ilustrações também ajudam bastante no entendimento."
+  },
+  {
+    "user": 5,
+    "etech": 5,
+    "comment": "O conteúdo é excelente, mas senti falta de mais exemplos sobre padrões menos comuns. No geral, é muito bom!"
+  },
+  {
+    "user": 6,
+    "etech": 6,
+    "comment": "Bem detalhado e fácil de seguir. Aprendi muito com este e-book."
+  },
+  {
+    "user": 7,
+    "etech": 7,
+    "comment": "Material de altíssima qualidade, superou minhas expectativas!"
+  },
+  {
+    "user": 8,
+    "etech": 8,
+    "comment": "Um pouco técnico demais em alguns pontos, mas ainda assim muito útil."
+  },
+  {
+    "user": 9,
+    "etech": 9,
+    "comment": "Achei a explicação sobre o Factory Pattern muito boa! Um dos melhores conteúdos que já li sobre o tema."
+  },
+  {
+    "user": 10,
+    "etech": 10,
+    "comment": "O passo a passo com exemplos realmente faz a diferença. Parabéns!"
+  },
+  {
+    "user": 1,
+    "etech": 2,
+    "comment": "A didática do material é excepcional. Muito bom mesmo!"
+  },
+  {
+    "user": 2,
+    "etech": 3,
+    "comment": "Gostei da forma como o conteúdo foi estruturado. Muito didático."
+  },
+  {
+    "user": 3,
+    "etech": 4,
+    "comment": "Tópicos bem organizados e conteúdo atualizado. Foi muito útil para mim."
+  },
+  {
+    "user": 4,
+    "etech": 5,
+    "comment": "Os conceitos são apresentados de forma clara e objetiva, mas senti falta de mais gráficos ou diagramas."
+  },
+  {
+    "user": 5,
+    "etech": 6,
+    "comment": "Um guia completo que ajuda muito quem está começando. Parabéns aos autores!"
+  },
+  {
+    "user": 6,
+    "etech": 7,
+    "comment": "Conteúdo bastante técnico, mas muito bem explicado. Recomendo!"
+  },
+  {
+    "user": 7,
+    "etech": 8,
+    "comment": "Os exemplos apresentados são muito úteis para aplicações práticas."
+  },
+  {
+    "user": 8,
+    "etech": 9,
+    "comment": "Gostei muito das explicações sobre os padrões de criação. Bem detalhado!"
+  },
+  {
+    "user": 9,
+    "etech": 10,
+    "comment": "Os conceitos foram muito bem apresentados, com linguagem simples e direta."
+  },
+  {
+    "user": 10,
+    "etech": 1,
+    "comment": "A abordagem prática foi o diferencial deste material. Recomendo para todos!"
+  },
+  {
+    "user": 1,
+    "etech": 3,
+    "comment": "Um material muito inspirador e bem escrito. Excelente leitura!"
+  },
+  {
+    "user": 2,
+    "etech": 4,
+    "comment": "Faltou um pouco mais de ilustrações, mas o conteúdo em si é muito bom."
+  },
+  {
+    "user": 3,
+    "etech": 5,
+    "comment": "Material bem estruturado, mas senti falta de algumas referências bibliográficas."
+  },
+  {
+    "user": 4,
+    "etech": 6,
+    "comment": "A leitura foi agradável e o conteúdo é de altíssima qualidade. Recomendo muito!"
+  },
+  {
+    "user": 5,
+    "etech": 7,
+    "comment": "Os exemplos práticos me ajudaram muito a entender conceitos mais abstratos."
+  },
+  {
+    "user": 6,
+    "etech": 8,
+    "comment": "Achei o conteúdo bom, mas seria interessante adicionar mais estudos de caso."
+  },
+  {
+    "user": 7,
+    "etech": 9,
+    "comment": "Explicações claras e exemplos diretos. Um dos melhores materiais sobre o tema!"
+  },
+  {
+    "user": 8,
+    "etech": 10,
+    "comment": "Um excelente recurso para quem quer aprender a fundo sobre padrões de projeto."
+  },
+  {
+    "user": 9,
+    "etech": 1,
+    "comment": "Os tópicos avançados foram apresentados de forma muito clara e acessível."
+  },
+  {
+    "user": 10,
+    "etech": 2,
+    "comment": "Achei a explicação muito técnica, mas foi útil para projetos específicos."
+  }
+]

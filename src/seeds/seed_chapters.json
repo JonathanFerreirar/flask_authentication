@@ -1,0 +1,122 @@
+[
+  {
+    "etech": 1,
+    "title": "Qual o principal princípio do Singleton?"
+  },
+  {
+    "etech": 1,
+    "title": "Como o Singleton garante uma única instância?"
+  },
+  {
+    "etech": 1,
+    "title": "Quais as vantagens do Singleton em projetos grandes?"
+  },
+  {
+    "etech": 2,
+    "title": "Como funciona o Factory Pattern?"
+  },
+  {
+    "etech": 2,
+    "title": "Quando usar o Factory Pattern em aplicações reais?"
+  },
+  {
+    "etech": 2,
+    "title": "Quais são os tipos de objetos mais adequados para o Factory Pattern?"
+  },
+  {
+    "etech": 3,
+    "title": "Qual o objetivo principal do Observer Pattern?"
+  },
+  {
+    "etech": 3,
+    "title": "Como implementar o Observer Pattern com JavaScript?"
+  },
+  {
+    "etech": 3,
+    "title": "Quando utilizar o Observer Pattern em sistemas reativos?"
+  },
+  {
+    "etech": 4,
+    "title": "Quais são as etapas do Builder Pattern?"
+  },
+  {
+    "etech": 4,
+    "title": "Como o Builder Pattern melhora a criação de objetos complexos?"
+  },
+  {
+    "etech": 4,
+    "title": "Dê um exemplo prático de uso do Builder Pattern."
+  },
+  {
+    "etech": 5,
+    "title": "O que o Adapter Pattern resolve?"
+  },
+  {
+    "etech": 5,
+    "title": "Como o Adapter Pattern facilita a integração de sistemas?"
+  },
+  {
+    "etech": 5,
+    "title": "Quais são os principais cenários de uso do Adapter Pattern?"
+  },
+  {
+    "etech": 6,
+    "title": "Como o Strategy Pattern auxilia na flexibilidade de código?"
+  },
+  {
+    "etech": 6,
+    "title": "Quais são os passos básicos para implementar o Strategy Pattern?"
+  },
+  {
+    "etech": 6,
+    "title": "Quando usar o Strategy Pattern em um projeto?"
+  },
+  {
+    "etech": 7,
+    "title": "Quais são os benefícios do Decorator Pattern?"
+  },
+  {
+    "etech": 7,
+    "title": "Como o Decorator Pattern ajuda na adição de comportamentos dinâmicos?"
+  },
+  {
+    "etech": 7,
+    "title": "Qual é o papel principal de um decorador no Decorator Pattern?"
+  },
+  {
+    "etech": 8,
+    "title": "O que é o Prototype Pattern?"
+  },
+  {
+    "etech": 8,
+    "title": "Como criar objetos clonados usando o Prototype Pattern?"
+  },
+  {
+    "etech": 8,
+    "title": "Quando optar pelo uso do Prototype Pattern?"
+  },
+  {
+    "etech": 9,
+    "title": "Qual o conceito central do Command Pattern?"
+  },
+  {
+    "etech": 9,
+    "title": "Como o Command Pattern ajuda no desacoplamento de comandos?"
+  },
+  {
+    "etech": 9,
+    "title": "Quais são as vantagens de usar o Command Pattern?"
+  },
+  {
+    "etech": 10,
+    "title": "Quais problemas o Composite Pattern resolve?"
+  },
+  {
+    "etech": 10,
+    "title": "Como lidar com estruturas de árvore usando o Composite Pattern?"
+  },
+  {
+    "etech": 10,
+    "title": "Quais os principais componentes do Composite Pattern?"
+  }
+]

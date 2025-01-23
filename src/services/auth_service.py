@@ -1,4 +1,4 @@
-from models.user_model import User
+from models.users_model import User
 from models.auth_model import TokenBlocklist
 
 from infra.database import get_database_session

@@ -3,12 +3,12 @@ from infra.base import Base
 from datetime import datetime
 from datetime import timezone
 
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
+from .etechs_model import Etech
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 class User(Base):
-    __tablename__ = "user"
+    __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(nullable=False)
@@ -16,6 +16,11 @@ class User(Base):
     email: Mapped[str] = mapped_column(unique=True, nullable=False)
     create_at: Mapped[str] = mapped_column(
         nullable=False, default=datetime.now(timezone.utc))
+    update_at: Mapped[datetime] = mapped_column(
+        nullable=False, default=datetime.now(timezone.utc),  onupdate=datetime.now(timezone.utc))
+
+    etechs: Mapped[list["Etech"]] = relationship(
+        "Etech", back_populates="user_relationship")
 
     def to_dict(self):
         return {

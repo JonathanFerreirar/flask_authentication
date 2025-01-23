@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "user": 1,
+    "price": 36,
+    "image": "",
+    "rating": 4,
+    "title": "Factory Pattern",
+    "topics": ["Factory Pattern", "JavaScript", "TypeScript"],
+    "description": "Aprenda de vez como usar esse pattern para construir uma aplicação altamente qualificada e com alto nível de manutenção, torne-se um dev para esc."
+  },
+  {
+    "id": 2,
+    "user": 2,
+    "price": 42,
+    "image": "",
+    "rating": 4,
+    "title": "Singleton Pattern",
+    "topics": ["Singleton Pattern", "Design Patterns", "TypeScript"],
+    "description": "Domine o Singleton Pattern e aprenda como utilizá-lo em seus projetos para gerenciar instâncias de forma eficiente e escalável."
+  },
+  {
+    "id": 3,
+    "user": 3,
+    "price": 29,
+    "image": "",
+    "rating": 4,
+    "title": "Observer Pattern",
+    "topics": ["Observer Pattern", "React", "JavaScript"],
+    "description": "Entenda o Observer Pattern e implemente sistemas reativos com maior facilidade utilizando exemplos práticos."
+  },
+  {
+    "id": 4,
+    "user": 4,
+    "price": 50,
+    "image": "",
+    "rating": 4,
+    "title": "Builder Pattern",
+    "topics": ["Builder Pattern", "TypeScript", "Node.js"],
+    "description": "Aprenda como criar objetos complexos de maneira eficiente utilizando o Builder Pattern com exemplos práticos."
+  },
+  {
+    "id": 5,
+    "user": 5,
+    "price": 33,
+    "image": "",
+    "rating": 4,
+    "title": "Adapter Pattern",
+    "topics": ["Adapter Pattern", "JavaScript", "APIs"],
+    "description": "Entenda o Adapter Pattern e saiba como utilizá-lo para conectar sistemas diferentes de forma simples e eficaz."
+  },
+  {
+    "id": 6,
+    "user": 6,
+    "price": 39,
+    "image": "",
+    "rating": 4,
+    "title": "Strategy Pattern",
+    "topics": ["Strategy Pattern", "TypeScript", "Clean Code"],
+    "description": "Implemente soluções flexíveis para seus problemas de software utilizando o Strategy Pattern com código limpo e eficiente."
+  },
+  {
+    "id": 7,
+    "user": 7,
+    "price": 45,
+    "image": "",
+    "rating": 4,
+    "title": "Decorator Pattern",
+    "topics": ["Decorator Pattern", "JavaScript", "Performance"],
+    "description": "Descubra como adicionar funcionalidades a objetos de forma dinâmica utilizando o poderoso Decorator Pattern."
+  },
+  {
+    "id": 8,
+    "user": 8,
+    "price": 48,
+    "image": "",
+    "rating": 4,
+    "title": "Prototype Pattern",
+    "topics": ["Prototype Pattern", "TypeScript", "OOP"],
+    "description": "Aprenda a criar clones eficientes de objetos e reduza a complexidade com o Prototype Pattern em seus projetos."
+  },
+  {
+    "id": 9,
+    "user": 9,
+    "price": 37,
+    "image": "",
+    "rating": 4,
+    "title": "Command Pattern",
+    "topics": ["Command Pattern", "JavaScript", "Clean Architecture"],
+    "description": "Implemente comandos desacoplados e sistemas escaláveis utilizando o Command Pattern com exemplos reais."
+  },
+  {
+    "id": 10,
+    "user": 10,
+    "price": 40,
+    "image": "",
+    "rating": 4,
+    "title": "Composite Pattern",
+    "topics": ["Composite Pattern", "TypeScript", "Complex Structures"],
+    "description": "Domine o Composite Pattern para lidar com estruturas de dados complexas de forma simples e eficiente."
+  }
+]

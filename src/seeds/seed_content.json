@@ -1,0 +1,182 @@
+[
+  {
+    "page": 1,
+    "content": "JavaScript foi criado em 1995 por Brendan Eich enquanto trabalhava na Netscape, com o objetivo de permitir a criação de sites dinâmicos.",
+    "images": [""],
+    "chapter": 1
+  },
+  {
+    "page": 2,
+    "content": "Inicialmente chamado de Mocha, a linguagem foi renomeada para LiveScript e, finalmente, para JavaScript, como uma estratégia de marketing.",
+    "images": [""],
+    "chapter": 1
+  },
+  {
+    "page": 3,
+    "content": "A padronização do JavaScript como ECMAScript (ES) começou em 1997 pela ECMA International, tornando-se um padrão essencial para navegadores.",
+    "images": [""],
+    "chapter": 1
+  },
+  {
+    "page": 1,
+    "content": "O ECMAScript 3 (ES3), lançado em 1999, foi a primeira versão amplamente suportada e adotada por navegadores.",
+    "images": [""],
+    "chapter": 2
+  },
+  {
+    "page": 2,
+    "content": "Com o ECMAScript 5 (ES5), introduzido em 2009, surgiram métodos úteis como map, filter e reduce, além do modo estrito (strict mode).",
+    "images": [""],
+    "chapter": 2
+  },
+  {
+    "page": 3,
+    "content": "O ECMAScript 6 (ES6), lançado em 2015, revolucionou a linguagem com recursos como let, const, arrow functions e template literals.",
+    "images": [""],
+    "chapter": 2
+  },
+  {
+    "page": 1,
+    "content": "Os módulos (import/export) introduzidos no ES6 ajudaram a organizar melhor o código JavaScript em projetos maiores.",
+    "images": [""],
+    "chapter": 3
+  },
+  {
+    "page": 2,
+    "content": "Além de módulos, ES6 trouxe Promises, facilitando o gerenciamento de operações assíncronas e ajudando a evitar callbacks aninhados.",
+    "images": [""],
+    "chapter": 3
+  },
+  {
+    "page": 3,
+    "content": "Outras melhorias no ES6 incluem classes, que adicionaram uma sintaxe mais clara para a criação de objetos baseados em protótipos.",
+    "images": [""],
+    "chapter": 3
+  },
+  {
+    "page": 1,
+    "content": "O ES7, lançado em 2016, introduziu o operador exponencial (**) e o método array.includes() para verificações mais intuitivas.",
+    "images": [""],
+    "chapter": 4
+  },
+  {
+    "page": 2,
+    "content": "Já o ES8 (2017) trouxe async/await, simplificando o trabalho com operações assíncronas de maneira mais legível.",
+    "images": [""],
+    "chapter": 4
+  },
+  {
+    "page": 3,
+    "content": "Outras melhorias no ES8 incluíram métodos para manipulação de objetos, como Object.entries() e Object.values().",
+    "images": [""],
+    "chapter": 4
+  },
+  {
+    "page": 1,
+    "content": "O ES9 (2018) introduziu o rest/spread para objetos, aprimorando a manipulação de propriedades.",
+    "images": [""],
+    "chapter": 5
+  },
+  {
+    "page": 2,
+    "content": "Outras mudanças do ES9 incluem o async iterator, que facilita a iteração de dados assíncronos.",
+    "images": [""],
+    "chapter": 5
+  },
+  {
+    "page": 3,
+    "content": "O ES10 (2019) trouxe o método flat() para arrays e melhorias na manipulação de strings, como trimStart() e trimEnd().",
+    "images": [""],
+    "chapter": 5
+  },
+  {
+    "page": 1,
+    "content": "O ES11 (2020) adicionou o operador nullish coalescing (??) para lidar com valores nulos ou indefinidos de maneira mais segura.",
+    "images": [""],
+    "chapter": 6
+  },
+  {
+    "page": 2,
+    "content": "Outra adição importante no ES11 foi o Optional Chaining (?.), que simplifica o acesso a propriedades profundas.",
+    "images": [""],
+    "chapter": 6
+  },
+  {
+    "page": 3,
+    "content": "ES11 também trouxe BigInt, um novo tipo de dado para lidar com números inteiros muito grandes.",
+    "images": [""],
+    "chapter": 6
+  },
+  {
+    "page": 1,
+    "content": "O ES12 (2021) introduziu melhorias na forma como os métodos de string manipulam padrões de busca com Regex.",
+    "images": [""],
+    "chapter": 7
+  },
+  {
+    "page": 2,
+    "content": "Uma melhoria significativa no ES12 foi o método replaceAll() para strings, substituindo todas as ocorrências de um padrão.",
+    "images": [""],
+    "chapter": 7
+  },
+  {
+    "page": 3,
+    "content": "O ES12 também melhorou a legibilidade dos nomes de erro, facilitando o rastreamento de exceções.",
+    "images": [""],
+    "chapter": 7
+  },
+  {
+    "page": 1,
+    "content": "O ES13 (2022) adicionou métodos para melhorar a interação com arrays e objetos.",
+    "images": [""],
+    "chapter": 8
+  },
+  {
+    "page": 2,
+    "content": "ES13 também introduziu o at(), uma alternativa mais intuitiva para acessar índices de arrays.",
+    "images": [""],
+    "chapter": 8
+  },
+  {
+    "page": 3,
+    "content": "Adições como melhorias no Pattern Matching também começaram a ser discutidas no ES13.",
+    "images": [""],
+    "chapter": 8
+  },
+  {
+    "page": 1,
+    "content": "Capítulos adicionais sobre JavaScript exploram padrões de projeto, como Factory e Singleton.",
+    "images": [""],
+    "chapter": 9
+  },
+  {
+    "page": 2,
+    "content": "O uso de padrões de design ajuda a criar sistemas escaláveis e mais fáceis de manter.",
+    "images": [""],
+    "chapter": 9
+  },
+  {
+    "page": 3,
+    "content": "Outros padrões, como Strategy e Observer, também são amplamente aplicáveis.",
+    "images": [""],
+    "chapter": 9
+  },
+  {
+    "page": 1,
+    "content": "JavaScript continua evoluindo com novos recursos voltados para desenvolvedores modernos.",
+    "images": [""],
+    "chapter": 10
+  },
+  {
+    "page": 2,
+    "content": "A compatibilidade entre navegadores melhorou com o avanço dos padrões ECMAScript.",
+    "images": [""],
+    "chapter": 10
+  },
+  {
+    "page": 3,
+    "content": "Com a comunidade ativa, o JavaScript continuará sendo um pilar no desenvolvimento web.",
+    "images": [""],
+    "chapter": 10
+  }
+]
