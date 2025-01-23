@@ -1,7 +1,7 @@
 from models.user_model import User
 from utils.extentions import bcrypt
 from infra.database import get_database_session
-from utils.validations import login_validations
+from utils.validations import login_validations, user_validations
 
 from flask_jwt_extended import create_access_token
 
@@ -25,7 +25,7 @@ def login_user(data):
 
             if isCorrectPassword:
 
-                access_token = create_access_token(identity=user.name)
+                access_token = create_access_token(identity=user.id)
 
                 return {
                     "data": {
@@ -36,6 +36,36 @@ def login_user(data):
 
             return {"error": "Unauthorized",
                     "message": "Invalid email or password."}, 400
+
+    except Exception as e:
+        return {"error": str(e)}, 500
+
+
+def create_new_user(data):
+    validation_error = user_validations(data)
+
+    if validation_error:
+        return validation_error
+    try:
+        with get_database_session() as database:
+            hashed_password = bcrypt.generate_password_hash(
+                data['password']).decode('utf-8')
+
+            new_user = User(name=data['name'],
+                            password=hashed_password, email=data['email'])
+
+            database.add(new_user)
+            database.flush()
+            database.refresh(new_user)
+
+            access_token = create_access_token(identity=new_user.id)
+
+            return {
+                "data": {
+                    **new_user.to_dict(),
+                    "access_token": access_token
+                }
+            }, 201
 
     except Exception as e:
         return {"error": str(e)}, 500

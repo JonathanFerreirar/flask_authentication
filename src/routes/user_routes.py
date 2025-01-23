@@ -1,19 +1,14 @@
 from flask import jsonify, request, Blueprint
-from services.user_service import get_all_users, create_new_user, get_user_by_id, delete_user_by_id
+from services.user_service import get_all_users, get_user_by_id, delete_user_by_id
 
 
 user_bp = Blueprint('user', __name__)
 
 
-@user_bp.route('/',  methods=['GET', 'POST'])
+@user_bp.route('/',  methods=['GET'])
 def users():
-    if request.method == 'POST':
-        body = request.get_json()
-        result, status = create_new_user(body)
-
-        return jsonify(result), status
-
     users = get_all_users()
+
     return jsonify({"data": users}), 200
 
 

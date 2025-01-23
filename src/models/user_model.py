@@ -10,9 +10,9 @@ class User(Base):
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[str]
-    name: Mapped[str]
-    password: Mapped[str]
+    email: Mapped[str] = mapped_column(unique=True, nullable=False)
+    name: Mapped[str] = mapped_column(nullable=False)
+    password: Mapped[str] = mapped_column(nullable=False)
 
     def to_dict(self):
         return {
