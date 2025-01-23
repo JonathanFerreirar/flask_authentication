@@ -1,9 +1,11 @@
 from flask import jsonify, request, Blueprint
 from flask_jwt_extended import jwt_required, get_current_user
 from services.user_service import get_all_users, delete_user_by_id
+from erros import ERRO_UNAUTHORIZED_USER
 
 
 user_bp = Blueprint('user', __name__)
+erro_unauthorized, erro_unauthorized_status = ERRO_UNAUTHORIZED_USER
 
 
 @user_bp.route('/',  methods=['GET'])
@@ -17,11 +19,16 @@ def users():
 @user_bp.route('/<int:user_id>', methods=['GET', 'DELETE'])
 @jwt_required()
 def get_user(user_id):
+    user = get_current_user()
+
+    if user_id != user['id']:
+        return ERRO_UNAUTHORIZED_USER
+
     if request.method == 'DELETE':
         result, status = delete_user_by_id(user_id)
 
         return jsonify(result), status
 
-    result, status = get_current_user()
-
-    return jsonify(result), status
+    return jsonify({
+        "data": user
+    }), 200

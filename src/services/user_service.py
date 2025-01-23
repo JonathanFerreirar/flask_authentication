@@ -3,8 +3,6 @@ from infra.database import get_database_session
 
 from erros import ERRO_NOT_FOUND_USER
 
-erro__not_found, erro_status_not_found, = ERRO_NOT_FOUND_USER
-
 
 def get_all_users():
     try:
@@ -24,7 +22,7 @@ def get_user_by_id(user_id):
             database.close()
 
             if not user:
-                return {"error": erro__not_found['erro'], "message": erro__not_found['message']}, erro_status_not_found
+                return ERRO_NOT_FOUND_USER
 
             return {"data": user.to_dict()}, 200
 
@@ -42,9 +40,7 @@ def delete_user_by_id(user_id):
                 database.delete(user)
                 return {}, 204
             else:
-                return {
-                    "error": erro__not_found['erro'], "message": erro__not_found['message']
-                }, erro_status_not_found
+                return ERRO_NOT_FOUND_USER
 
     except Exception as e:
         return {"error": str(e)}, 500
