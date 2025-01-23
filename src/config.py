@@ -1,13 +1,17 @@
+import os
+
 from infra.base import Base
+from dotenv import load_dotenv
 from infra.database import engine
 
-from infra.database import config
 from routes import register_routes
 from flask import Flask, Blueprint
 
+load_dotenv()
+
 
 class Config:
-    SECRET_KEY = config.get('SECRET_KEY')
+    SECRET_KEY = os.getenv("SECRET_KEY")
     DEBUG = True
     PORT = 3001
 
@@ -19,7 +23,7 @@ def create_app():
     app = Flask(__name__)
 
     app.config.from_object(Config)
-    app.config["JWT_SECRET_KEY"] = config.get('SECRET_KEY')
+    app.config["JWT_SECRET_KEY"] = os.getenv("SECRET_KEY")
 
     register_routes(api)
 
@@ -29,4 +33,5 @@ def create_app():
 
 
 if __name__ == '__main__':
-    Base.metadata.create_all(engine)
+    pass
+    # Base.metadata.create_all(engine)

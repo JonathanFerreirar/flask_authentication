@@ -1,15 +1,14 @@
+import os
+
 from typing import Generator
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from contextlib import contextmanager
 from sqlalchemy.orm import Session, sessionmaker
 
-config = {
-    **dotenv_values(".env"),
-}
 
-
-DATABASE_URL = config.get('DATABASE_URL')
+load_dotenv()
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(
     DATABASE_URL, echo=True)
