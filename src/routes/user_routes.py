@@ -11,9 +11,9 @@ user_bp = Blueprint('user', __name__)
 @user_bp.route('/',  methods=['GET'])
 @jwt_required()
 def users():
-    users = get_all_users()
+    result, status = get_all_users()
 
-    return jsonify({"data": users}), 200
+    return jsonify(result), status
 
 
 @user_bp.route('/<int:user_id>', methods=['GET', 'DELETE'])

@@ -2,17 +2,41 @@ from erros import ERRO_UNAUTHORIZED_USER
 
 from flask import jsonify, request, Blueprint
 from flask_jwt_extended import jwt_required, get_current_user
-from services.etech_service import create_new_etech
+from services.etech_service import create_new_etech, get_etech_by_id, get_all_etechs, update_etech
 
 
 etech_bp = Blueprint('etech', __name__)
 
 
-@jwt_required()
 @etech_bp.route('/create',  methods=['POST'])
-def create_user():
+@jwt_required()
+def create_etech():
     body = request.get_json()
 
+    user = get_current_user()
+
+    if body['user'] != user['id']:
+        return ERRO_UNAUTHORIZED_USER
+
     result, status = create_new_etech(body)
+
+    return jsonify(result), status
+
+
+@etech_bp.route('/<int:etech_id>',  methods=['GET', 'PUT'])
+@etech_bp.route('/', defaults={'etech_id': None}, methods=['GET'])
+def get_etech(etech_id):
+
+    if not etech_id:
+        result, status = get_all_etechs()
+
+        return jsonify(result), status
+
+    if request.method == 'PUT':
+        result, status = update_etech(request.get_json())
+
+        return jsonify(result), status
+
+    result, status = get_etech_by_id(etech_id)
 
     return jsonify(result), status

@@ -8,7 +8,9 @@ def get_all_users():
     try:
         with get_database_session() as database:
             users = database.query(User).all()
-            return [user.to_dict() for user in users]
+            return {
+                "data": [user.to_dict() for user in users]
+            }, 200
 
     except Exception as e:
         return {"error": str(e)}, 500

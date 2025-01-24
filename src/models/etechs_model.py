@@ -13,12 +13,14 @@ class Etech(Base):
     __tablename__ = "etechs"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    image: Mapped[str] = mapped_column(nullable=True)
+    image: Mapped[str] = mapped_column(String(400), nullable=True)
     price: Mapped[int] = mapped_column(nullable=False)
-    title: Mapped[str] = mapped_column(unique=True, nullable=False)
+    title: Mapped[str] = mapped_column(
+        String(155), unique=True, nullable=False)
     user: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     topics: Mapped[list[str]] = mapped_column(ARRAY(String), nullable=False)
-    description: Mapped[str] = mapped_column(unique=True, nullable=False)
+    description: Mapped[str] = mapped_column(
+        String(1000), unique=True, nullable=False)
     create_at: Mapped[datetime] = mapped_column(
         nullable=False, default=datetime.now(timezone.utc))
     update_at: Mapped[datetime] = mapped_column(
