@@ -23,7 +23,7 @@ def create_etech():
     return jsonify(result), status
 
 
-@etech_bp.route('/<int:etech_id>',  methods=['GET', 'PUT'])
+@etech_bp.route('/<int:etech_id>',  methods=['GET'])
 @etech_bp.route('/', defaults={'etech_id': None}, methods=['GET'])
 def get_etech(etech_id):
 
@@ -32,11 +32,17 @@ def get_etech(etech_id):
 
         return jsonify(result), status
 
-    if request.method == 'PUT':
-        result, status = update_etech(request.get_json())
-
-        return jsonify(result), status
-
     result, status = get_etech_by_id(etech_id)
 
     return jsonify(result), status
+
+
+@etech_bp.route('/update/<int:etech_id>',  methods=['PUT'])
+@jwt_required()
+def update_etech_router(etech_id):
+    body = request.get_json()
+
+    if request.method == 'PUT':
+        result, status = update_etech(body, etech_id)
+
+        return jsonify(result), status

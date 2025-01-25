@@ -1,12 +1,15 @@
 from models.etechs_model import Etech
 from infra.database import get_database_session
 
-from utils.validations import etech_validations
+from utils.validations import etech_validations, update_etech_valitaions
 
-from erros import ERRO_ALREDY_EXIST_TITLE, ERRO_ALREDY_EXIST_DESCRIPTION, ERRO_NOT_FOUND_ETECH
+from erros import ERRO_NOT_FOUND_ETECH, ERRO_BAD_REQUEST_ETECH, ERRO_MISS_BODY
+from erros import ERRO_ALREDY_EXIST_TITLE_ETECH, ERRO_ALREDY_EXIST_DESCRIPTION_ETECH
+
+from dtos.etech import EtechCreateDTO, EtechUpdateDTO
 
 
-def create_new_etech(data):
+def create_new_etech(data: EtechCreateDTO):
     validation_error = etech_validations(data)
 
     if validation_error:
@@ -18,13 +21,13 @@ def create_new_etech(data):
             title = database.query(Etech).filter_by(
                 title=data['title']).first()
             if title:
-                return ERRO_ALREDY_EXIST_TITLE
+                return ERRO_ALREDY_EXIST_TITLE_ETECH
 
             description = database.query(Etech).filter_by(
                 description=data['description']).first()
 
             if description:
-                return ERRO_ALREDY_EXIST_DESCRIPTION
+                return ERRO_ALREDY_EXIST_DESCRIPTION_ETECH
 
             new_etech = Etech(user=data['user'], price=data['price'], image=data['image'],
                               title=data['title'], topics=data['topics'], description=data['description'])
@@ -73,36 +76,56 @@ def get_all_etechs():
         return {"error": str(e)}, 500
 
 
-def update_etech(data):
+def update_etech(data: EtechUpdateDTO, etech_id):
+    if not data:
+        return ERRO_MISS_BODY
+
+    validation_error = update_etech_valitaions(data)
+    if validation_error:
+        return validation_error
+
     try:
         with get_database_session() as database:
+            etech = database.query(Etech).filter_by(
+                id=etech_id).first()
 
-            title = database.query(Etech).filter_by(
-                title=data['title']).first()
-            if title:
-                return ERRO_ALREDY_EXIST_TITLE
+            if "title" in data:
+                filtered_by_title = database.query(Etech).filter_by(
+                    title=data['title']).first()
+                if filtered_by_title:
+                    return ERRO_ALREDY_EXIST_TITLE_ETECH
 
-            description = database.query(Etech).filter_by(
-                description=data['description']).first()
+            # check by description
 
-            if description:
-                return ERRO_ALREDY_EXIST_DESCRIPTION
+            if "description" in data:
+                filtered_by_description = database.query(Etech).filter_by(
+                    description=data['description']).first()
+                if filtered_by_description:
+                    return ERRO_ALREDY_EXIST_DESCRIPTION_ETECH
 
-            # updated_etech = Etech(user=data['user'], price=data['price'], image=data['image'],
-             #                 title=data['title'], topics=data['topics'], description=data['description'])
-            updated_etech = {
+            #
 
-                "title": "Factory teeeee",
-                "description":
-                "Aoobaaa."
-            }
-            database.update(title='Factory teeeee')
+            for key, value in data.items():
+                match key:
+                    case 'title':
+                        etech.title = value
+                    case 'image':
+                        etech.image = value
+                    case 'price':
+                        etech.price = value
+                    case 'topics':
+                        etech.topics = value
+                    case 'description':
+                        etech.description = value
+                    case _:
+                        return ERRO_BAD_REQUEST_ETECH
+
             database.flush()
-            database.refresh(updated_etech)
+            database.refresh(etech)
 
             return {
                 "data": {
-                    **updated_etech.to_dict(),
+                    **etech.to_dict()
                 }
             }, 201
 
