@@ -1,67 +1,47 @@
 from .string import remove_space
-from typing import Dict, Tuple, Union
+from typing import Dict, Tuple, Union, List
 
-from erros import ERRO_BAD_REQUEST_ETECH, ERRO_TOPIC_INVALID_ETECH
+from erros import ERRO_BAD_REQUEST_ETECH, ERRO_TOPIC_INVALID_ETECH, ERRO_BAD_REQUEST_CHAPTER
+
+
+def validate_required_fields(data: Dict[str, str], required_fields: List[str], except_fields: List[str] = []) -> Union[None, Tuple[Dict[str, str], int]]:
+    """
+    Validate that all required fields are present and non-empty.
+    """
+    for field in required_fields:
+        if field not in data and field not in except_fields:
+            return {"data": f"Please enter the required field: {field}."}, 400
+
+        if field in data and field not in except_fields:
+            value = remove_space(str(data[field]))
+            if not value:
+                return {"data": f"Please enter a valid filed to ( {field} )."}, 400
+    return None
 
 
 def login_validations(data: Dict[str, str]) -> Union[None, Tuple[Dict[str, str], int]]:
-    if not all(key in data for key in ['password', 'email']):
-        return {"data": "Por favor insira um email e password."}, 400
 
-    for key, value in data.items():
-        value = remove_space(str(value))
-        if not value:
-            return {
-                "data": f'Por favor insira um valor válido para o campo ( {key} ).'
-            }, 400
+    required_fields = ['email', 'password']
+    return validate_required_fields(data, required_fields)
 
 
 def user_validations(data: Dict[str, str]) -> Union[None, Tuple[Dict[str, str], int]]:
-    if not all(key in data for key in ['name', 'password', 'email']):
-        return {"data": "Por favor insira nome, password e email."}, 400
-
-    for key, value in data.items():
-        value = remove_space(str(value))
-        if not value:
-            return {
-                "data": f'Por favor insira um valor válido para o campo ( {key} ).'
-            }, 400
+    required_fields = ['name', 'email', 'password']
+    return validate_required_fields(data, required_fields)
 
 
 def etech_validations(data: Dict[str, str]) -> Union[None, Tuple[Dict[str, str], int]]:
-    except_by = 'image'
-
-    if not all(key in data for key in ['user', 'price', 'title', 'topics', 'description']):
-        return {"data": "Por favor insira os campos corretos."}, 400
-
-    for key, value in data.items():
-        value = remove_space(str(value))
-
-        if key != except_by:
-            if not value:
-                return {
-                    "data": f'Por favor insira um valor válido para o campo ( {key} ).'
-                }, 400
+    except_fields = ['image']
+    required_fields = ['user', 'price', 'title', 'topics', 'description']
+    return validate_required_fields(data, required_fields, except_fields)
 
 
 def update_etech_valitaions(data: Dict[str, str]):
     for key, value in data.items():
         match key:
-            case 'title':
+            case 'title' | 'image' | 'price' | 'description':
                 title = remove_space(str(value))
                 if not title:
-                    return {
-                        "data": f'Por favor insira um valor válido para o campo ( {key} ).'
-                    }, 400
-            case 'image':
-                image = remove_space(str(value))
-                if not image:
-                    return {
-                        "data": f'Por favor insira um valor válido para o campo ( {key} ).'
-                    }, 400
-            case 'price':
-                price = remove_space(str(value))
-                if not price:
                     return {
                         "data": f'Por favor insira um valor válido para o campo ( {key} ).'
                     }, 400
@@ -70,12 +50,24 @@ def update_etech_valitaions(data: Dict[str, str]):
                 if not isinstance(value, list):
                     return ERRO_TOPIC_INVALID_ETECH
 
-            case 'description':
-                description = remove_space(str(value))
-                if not description:
+            case _:
+                return ERRO_BAD_REQUEST_ETECH
+
+
+def update_chapter_valitaions(data: Dict[str, str]):
+    for key, value in data.items():
+        match key:
+            case 'title':
+                title = remove_space(str(value))
+                if not title:
                     return {
                         "data": f'Por favor insira um valor válido para o campo ( {key} ).'
                     }, 400
-
             case _:
-                return ERRO_BAD_REQUEST_ETECH
+                return ERRO_BAD_REQUEST_CHAPTER
+
+
+def chapter_validations(data: Dict[str, str]) -> Union[None, Tuple[Dict[str, str], int]]:
+
+    required_fields = ['etech', 'title', 'chapter_number']
+    return validate_required_fields(data, required_fields)

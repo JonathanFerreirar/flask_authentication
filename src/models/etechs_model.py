@@ -27,10 +27,11 @@ class Etech(Base):
         nullable=False, default=datetime.now(timezone.utc),  onupdate=datetime.now(timezone.utc))
 
     user_relationship = relationship("User", back_populates="etechs")
+    chapter_relationship = relationship(
+        "Chapter", back_populates="etech_relationship")
 
     def to_dict(self):
 
-        print('user_relationship', self.user_relationship.to_dict())
         return {
             "id": self.id,
             "image": self.image,
