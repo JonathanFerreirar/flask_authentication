@@ -1,7 +1,7 @@
 from .string import remove_space
 from typing import Dict, Tuple, Union, List
 
-from erros import ERRO_BAD_REQUEST_ETECH, ERRO_TOPIC_INVALID_ETECH, ERRO_BAD_REQUEST_CHAPTER
+from erros import ERRO_TOPIC_INVALID_ETECH, ERRO_BAD_REQUEST, ERRO_IMAGES_INVALID_CONTENT
 
 
 def validate_required_fields(data: Dict[str, str], required_fields: List[str], except_fields: List[str] = []) -> Union[None, Tuple[Dict[str, str], int]]:
@@ -51,7 +51,7 @@ def update_etech_valitaions(data: Dict[str, str]):
                     return ERRO_TOPIC_INVALID_ETECH
 
             case _:
-                return ERRO_BAD_REQUEST_ETECH
+                return ERRO_BAD_REQUEST
 
 
 def update_chapter_valitaions(data: Dict[str, str]):
@@ -64,10 +64,35 @@ def update_chapter_valitaions(data: Dict[str, str]):
                         "data": f'Por favor insira um valor válido para o campo ( {key} ).'
                     }, 400
             case _:
-                return ERRO_BAD_REQUEST_CHAPTER
+                return ERRO_BAD_REQUEST
 
 
 def chapter_validations(data: Dict[str, str]) -> Union[None, Tuple[Dict[str, str], int]]:
 
     required_fields = ['etech', 'title', 'chapter_number']
     return validate_required_fields(data, required_fields)
+
+
+def content_validations(data: Dict[str, str]) -> Union[None, Tuple[Dict[str, str], int]]:
+
+    except_fields = ['images']
+    required_fields = ['chapter', 'content', 'page']
+    return validate_required_fields(data, required_fields, except_fields)
+
+
+def update_content_valitaions(data: Dict[str, str]):
+    for key, value in data.items():
+        match key:
+            case 'content':
+                value_trated = remove_space(str(value))
+                if not value_trated:
+                    return {
+                        "data": f'Por favor insira um valor válido para o campo ( {key} ).'
+                    }, 400
+
+            case 'images':
+                if not isinstance(value, list):
+                    return ERRO_IMAGES_INVALID_CONTENT
+
+            case _:
+                return ERRO_BAD_REQUEST

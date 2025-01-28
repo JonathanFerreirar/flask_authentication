@@ -1,5 +1,5 @@
-from models.chapter_model import Chapter
 from models.etechs_model import Etech
+from models.chapters_model import Chapter
 from infra.database import get_database_session
 
 from utils.validations import chapter_validations, update_chapter_valitaions
@@ -9,7 +9,7 @@ from erros import ERRO_NOT_FOUND_CHAPTER, ERRO_MISS_BODY
 from erros import ERRO_UNAUTHORIZED_USER, ERRO_NOT_FOUND_CHAPTER, ERRO_BAD_REQUEST_CHAPTER, ERRO_ALREDY_EXIST_THIS_CHAPTER
 
 from dtos.chapter import ChapterCreateDTO, ChapterUpdateDTO
-from flask_jwt_extended import jwt_required, get_current_user
+from flask_jwt_extended import get_current_user
 
 
 def create_new_chapter(data: ChapterCreateDTO):
@@ -101,10 +101,20 @@ def update_chapter(data: ChapterUpdateDTO, chapter_id):
     if validation_error:
         return validation_error
 
+    user = get_current_user()
+
+    current_user = user['id']
+
     try:
         with get_database_session() as database:
             chapter = database.query(Chapter).filter_by(
                 id=chapter_id).first()
+
+            etech_user_id = chapter.to_dict_with_etech().get(
+                'etech', {}).get('user', {}).get('id')
+
+            if etech_user_id != current_user:
+                return ERRO_UNAUTHORIZED_USER
 
             if "title" in data:
                 filtered_by_title = database.query(Chapter).filter_by(
