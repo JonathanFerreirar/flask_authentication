@@ -1,7 +1,7 @@
 from models.users_model import User
 from infra.database import get_database_session
 
-from erros import ERRO_NOT_FOUND_USER
+from erros import ERRO_NOT_FOUND
 
 
 def get_all_users():
@@ -24,7 +24,7 @@ def get_user_by_id(user_id):
             database.close()
 
             if not user:
-                return ERRO_NOT_FOUND_USER
+                return ERRO_NOT_FOUND('user')
 
             return {"data": user.to_dict()}, 200
 
@@ -42,7 +42,7 @@ def delete_user_by_id(user_id):
                 database.delete(user)
                 return {}, 204
             else:
-                return ERRO_NOT_FOUND_USER
+                return ERRO_NOT_FOUND('user')
 
     except Exception as e:
         return {"error": str(e)}, 500

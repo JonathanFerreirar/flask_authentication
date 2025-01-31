@@ -2,14 +2,13 @@ from models.etechs_model import Etech
 from models.chapters_model import Chapter
 from infra.database import get_database_session
 
+from flask_jwt_extended import get_current_user
+from dtos.chapter import ChapterCreateDTO, ChapterUpdateDTO
+
 from utils.validations import chapter_validations, update_chapter_valitaions
 
-from erros import ERRO_NOT_FOUND_CHAPTER, ERRO_MISS_BODY
-
-from erros import ERRO_UNAUTHORIZED_USER, ERRO_NOT_FOUND_CHAPTER, ERRO_BAD_REQUEST_CHAPTER, ERRO_ALREDY_EXIST_THIS_CHAPTER
-
-from dtos.chapter import ChapterCreateDTO, ChapterUpdateDTO
-from flask_jwt_extended import get_current_user
+from erros import ERRO_UNAUTHORIZED_USER
+from erros import ERRO_NOT_FOUND, ERRO_ALREDY_EXIST, ERRO_BAD_REQUEST, ERRO_MISS_BODY
 
 
 def create_new_chapter(data: ChapterCreateDTO):
@@ -28,12 +27,12 @@ def create_new_chapter(data: ChapterCreateDTO):
             title = database.query(Chapter).filter_by(
                 title=data['title'], etech=data['etech']).first()
             if title:
-                return ERRO_ALREDY_EXIST_THIS_CHAPTER
+                return ERRO_ALREDY_EXIST('chapter')
 
             chapter_number = database.query(Chapter).filter_by(
                 chapter_number=data['chapter_number'], etech=data['etech']).first()
             if chapter_number:
-                return ERRO_ALREDY_EXIST_THIS_CHAPTER
+                return ERRO_ALREDY_EXIST('chapter')
 
             etech = database.query(Etech).filter_by(
                 id=data['etech']).first()
@@ -65,7 +64,7 @@ def get_chapter_by_id(chapter_id):
             chapter = database.get(Chapter, chapter_id)
 
             if not chapter:
-                return ERRO_NOT_FOUND_CHAPTER
+                return ERRO_NOT_FOUND('chapter')
 
             return {"data": {
                 **chapter.to_dict()
@@ -83,7 +82,7 @@ def get_all_chapter_from_user(etech_id):
                 etech=etech_id).all()
 
             if not chapters:
-                return ERRO_NOT_FOUND_CHAPTER
+                return ERRO_NOT_FOUND('chapter')
 
             return {
                 "data": [chapter.to_dict() for chapter in chapters]
@@ -120,7 +119,7 @@ def update_chapter(data: ChapterUpdateDTO, chapter_id):
                 filtered_by_title = database.query(Chapter).filter_by(
                     title=data['title']).first()
                 if filtered_by_title:
-                    return ERRO_ALREDY_EXIST_THIS_CHAPTER
+                    return ERRO_ALREDY_EXIST('chapter')
 
             for key, value in data.items():
                 match key:
@@ -128,7 +127,7 @@ def update_chapter(data: ChapterUpdateDTO, chapter_id):
                         chapter.title = value
 
                     case _:
-                        return ERRO_BAD_REQUEST_CHAPTER
+                        return ERRO_BAD_REQUEST
 
             database.flush()
             database.refresh(chapter)

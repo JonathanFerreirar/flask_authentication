@@ -8,7 +8,7 @@ from utils.validations import login_validations, user_validations
 
 from flask_jwt_extended import create_access_token, get_jwt
 
-from erros import ERRO_NOT_FOUND_USER, ERRO__INVALID_EMAIL_OR_PASSWORD, ERRO_ALREDY_EXIST_USER
+from erros import ERRO_NOT_FOUND, ERRO_INVALID_EMAIL_OR_PASSWORD, ERRO_ALREDY_EXIST
 
 
 @jwt.token_in_blocklist_loader
@@ -44,7 +44,7 @@ def login_user(data):
             database.close()
 
             if not user:
-                return ERRO_NOT_FOUND_USER
+                return ERRO_NOT_FOUND('user')
 
             isCorrectPassword = bcrypt.check_password_hash(
                 user.password, data['password'])
@@ -60,7 +60,7 @@ def login_user(data):
                     }
                 }, 200
 
-            return ERRO__INVALID_EMAIL_OR_PASSWORD
+            return ERRO_INVALID_EMAIL_OR_PASSWORD
 
     except Exception as e:
         return {"error": str(e)}, 500
@@ -75,7 +75,7 @@ def create_new_user(data):
         with get_database_session() as database:
             user = database.query(User).filter_by(email=data['email']).first()
             if user:
-                return ERRO_ALREDY_EXIST_USER
+                return ERRO_ALREDY_EXIST("user")
 
             hashed_password = bcrypt.generate_password_hash(
                 data['password']).decode('utf-8')

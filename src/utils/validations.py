@@ -1,6 +1,8 @@
 from .string import remove_space
 from typing import Dict, Tuple, Union, List
 
+from dtos.comment import CommentDTO
+
 from erros import ERRO_TOPIC_INVALID_ETECH, ERRO_BAD_REQUEST, ERRO_IMAGES_INVALID_CONTENT
 
 
@@ -10,12 +12,12 @@ def validate_required_fields(data: Dict[str, str], required_fields: List[str], e
     """
     for field in required_fields:
         if field not in data and field not in except_fields:
-            return {"data": f"Please enter the required field: {field}."}, 400
+            return {"error": "badRequest", "msg": f"Please enter the required field: {field}."}, 400
 
         if field in data and field not in except_fields:
             value = remove_space(str(data[field]))
             if not value:
-                return {"data": f"Please enter a valid filed to ( {field} )."}, 400
+                return {"error": "badRequest", "msg": f"Please enter a valid filed to ( {field} )."}, 400
     return None
 
 
@@ -93,6 +95,26 @@ def update_content_valitaions(data: Dict[str, str]):
             case 'images':
                 if not isinstance(value, list):
                     return ERRO_IMAGES_INVALID_CONTENT
+
+            case _:
+                return ERRO_BAD_REQUEST
+
+
+def comment_validations(data: CommentDTO):
+    required_fields = ['comment', 'etech']
+
+    return validate_required_fields(data, required_fields)
+
+
+def update_comment_valitaions(data: Dict[str, str]):
+    for key, value in data.items():
+        match key:
+            case 'comment':
+                value_trated = remove_space(str(value))
+                if not value_trated:
+                    return {
+                        "data": f'Por favor insira um valor válido para o campo ( {key} ).'
+                    }, 400
 
             case _:
                 return ERRO_BAD_REQUEST

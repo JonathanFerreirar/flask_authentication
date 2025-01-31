@@ -7,8 +7,8 @@ from flask_jwt_extended import get_current_user
 from dtos.content import ContentCreateDTO, ContentUpdateDTO
 from utils.validations import content_validations, update_content_valitaions
 
-from erros import ERRO_UNAUTHORIZED_USER, ERRO_ALREDY_EXIST_THIS_CONTENT
-from erros import ERRO_NOT_FOUND_CHAPTER, ERRO_NOT_FOUND_CONTENT, ERRO_MISS_BODY, ERRO_BAD_REQUEST
+from erros import ERRO_MISS_BODY, ERRO_BAD_REQUEST
+from erros import ERRO_UNAUTHORIZED_USER, ERRO_NOT_FOUND, ERRO_ALREDY_EXIST
 
 
 def create_new_content(data: ContentCreateDTO):
@@ -27,13 +27,13 @@ def create_new_content(data: ContentCreateDTO):
             page = database.query(Content).filter_by(
                 page=data['page'], chapter=data['chapter']).first()
             if page:
-                return ERRO_ALREDY_EXIST_THIS_CONTENT
+                return ERRO_ALREDY_EXIST('content')
 
             chapter = database.query(Chapter).filter_by(
                 id=data['chapter']).first()
 
             if not chapter:
-                return ERRO_NOT_FOUND_CHAPTER
+                return ERRO_NOT_FOUND('chapter')
 
             etech_user_id = chapter.to_dict_with_etech().get(
                 'etech', {}).get('user', {}).get('id')
@@ -67,7 +67,7 @@ def get_content_by_id(content_id):
             content = database.get(Content, content_id)
 
             if not content:
-                return ERRO_NOT_FOUND_CONTENT
+                return ERRO_NOT_FOUND('chapter')
 
             return {"data": {
                 **content.to_dict()
@@ -85,7 +85,7 @@ def get_all_content_from_chapter(chapter_id):
                 chapter=chapter_id).all()
 
             if not contents:
-                return ERRO_NOT_FOUND_CONTENT
+                return ERRO_NOT_FOUND('chapter')
 
             return {
                 "data": [chapter.to_dict() for chapter in contents]
@@ -115,7 +115,7 @@ def update_content(data: ContentUpdateDTO, content_id):
             chapter = content.to_dict_with_chapter()
 
             if not chapter:
-                return ERRO_NOT_FOUND_CHAPTER
+                return ERRO_NOT_FOUND('chapter')
 
             etech_user_id = chapter.get('chapter', {}).get(
                 'etech', {}).get('user', {}).get('id')

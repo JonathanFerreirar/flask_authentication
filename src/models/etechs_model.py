@@ -29,9 +29,10 @@ class Etech(Base):
     user_relationship = relationship("User", back_populates="etechs")
     chapter_relationship = relationship(
         "Chapter", back_populates="etech_relationship")
+    comments_relationship = relationship(
+        "Comment", back_populates="etech_relationship")
 
     def to_dict(self):
-
         return {
             "id": self.id,
             "image": self.image,
@@ -42,5 +43,14 @@ class Etech(Base):
             "update_at": self.update_at,
             "description": self.description,
             "user": self.user_relationship.to_dict(),
+        }
 
+    def bring_just_comments(self):
+        return {
+            "comments": [comment.to_dict() for comment in self.comments_relationship]
+        }
+
+    def brins_jus_chapters(self):
+        return {
+            "chapters": [chapter.to_dict() for chapter in self.chapter_relationship]
         }

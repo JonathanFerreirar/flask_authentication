@@ -1,12 +1,10 @@
 from models.etechs_model import Etech
 from infra.database import get_database_session
 
+from dtos.etech import EtechCreateDTO, EtechUpdateDTO
 from utils.validations import etech_validations, update_etech_valitaions
 
-from erros import ERRO_NOT_FOUND_ETECH, ERRO_BAD_REQUEST_ETECH, ERRO_MISS_BODY
-from erros import ERRO_ALREDY_EXIST_TITLE_ETECH, ERRO_ALREDY_EXIST_DESCRIPTION_ETECH
-
-from dtos.etech import EtechCreateDTO, EtechUpdateDTO
+from erros import ERRO_MISS_BODY, ERRO_BAD_REQUEST, ERRO_ALREDY_EXIST, ERRO_NOT_FOUND
 
 
 def create_new_etech(data: EtechCreateDTO):
@@ -21,13 +19,13 @@ def create_new_etech(data: EtechCreateDTO):
             title = database.query(Etech).filter_by(
                 title=data['title']).first()
             if title:
-                return ERRO_ALREDY_EXIST_TITLE_ETECH
+                return ERRO_ALREDY_EXIST('title')
 
             description = database.query(Etech).filter_by(
                 description=data['description']).first()
 
             if description:
-                return ERRO_ALREDY_EXIST_DESCRIPTION_ETECH
+                return ERRO_ALREDY_EXIST('description')
 
             new_etech = Etech(user=data['user'], price=data['price'], image=data['image'],
                               title=data['title'], topics=data['topics'], description=data['description'])
@@ -53,7 +51,7 @@ def get_etech_by_id(etech_id):
             etech = database.get(Etech, etech_id)
 
             if not etech:
-                return ERRO_NOT_FOUND_ETECH
+                return ERRO_NOT_FOUND('etech')
 
             return {"data": {
                 **etech.to_dict()
@@ -93,17 +91,13 @@ def update_etech(data: EtechUpdateDTO, etech_id):
                 filtered_by_title = database.query(Etech).filter_by(
                     title=data['title']).first()
                 if filtered_by_title:
-                    return ERRO_ALREDY_EXIST_TITLE_ETECH
-
-            # check by description
+                    return ERRO_ALREDY_EXIST('title')
 
             if "description" in data:
                 filtered_by_description = database.query(Etech).filter_by(
                     description=data['description']).first()
                 if filtered_by_description:
-                    return ERRO_ALREDY_EXIST_DESCRIPTION_ETECH
-
-            #
+                    return ERRO_ALREDY_EXIST('description')
 
             for key, value in data.items():
                 match key:
@@ -118,7 +112,7 @@ def update_etech(data: EtechUpdateDTO, etech_id):
                     case 'description':
                         etech.description = value
                     case _:
-                        return ERRO_BAD_REQUEST_ETECH
+                        return ERRO_BAD_REQUEST
 
             database.flush()
             database.refresh(etech)
