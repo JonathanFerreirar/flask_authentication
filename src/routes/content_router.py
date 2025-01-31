@@ -8,7 +8,7 @@ from services.content_service import create_new_content, get_content_by_id, get_
 content_bp = Blueprint('content', __name__)
 
 
-@content_bp.route('/create',  methods=['POST'])
+@content_bp.route('/',  methods=['POST'])
 @jwt_required()
 def create_content():
     body = request.get_json()

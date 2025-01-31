@@ -8,7 +8,7 @@ from services.chapter_service import create_new_chapter, get_chapter_by_id, get_
 chapter_bp = Blueprint('chapter', __name__)
 
 
-@chapter_bp.route('/create',  methods=['POST'])
+@chapter_bp.route('/',  methods=['POST'])
 @jwt_required()
 def create_etech():
     body = request.get_json()
@@ -35,7 +35,7 @@ def get_etech(chapter_id):
     return jsonify(result), status
 
 
-@chapter_bp.route('/update/<int:chapter_id>',  methods=['PUT'])
+@chapter_bp.route('/<int:chapter_id>',  methods=['PUT'])
 @jwt_required()
 def update_etech_router(chapter_id):
     body = request.get_json()

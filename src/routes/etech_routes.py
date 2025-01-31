@@ -8,7 +8,7 @@ from services.etech_service import create_new_etech, get_etech_by_id, get_all_et
 etech_bp = Blueprint('etech', __name__)
 
 
-@etech_bp.route('/create',  methods=['POST'])
+@etech_bp.route('/',  methods=['POST'])
 @jwt_required()
 def create_etech():
     body = request.get_json()
@@ -37,7 +37,7 @@ def get_etech(etech_id):
     return jsonify(result), status
 
 
-@etech_bp.route('/update/<int:etech_id>',  methods=['PUT'])
+@etech_bp.route('/<int:etech_id>',  methods=['PUT'])
 @jwt_required()
 def update_etech_router(etech_id):
     body = request.get_json()
