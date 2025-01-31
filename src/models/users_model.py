@@ -7,6 +7,7 @@ from datetime import timezone
 from sqlalchemy import String
 from .etechs_model import Etech
 
+from .profile_model import Profile
 from .comments_model import Comment
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -29,6 +30,9 @@ class User(Base):
         "Etech", back_populates="user_relationship")
     comments: Mapped[list["Comment"]] = relationship(
         "Comment", back_populates="user_relationship")
+
+    profile: Mapped["Profile"] = relationship(
+        "Profile", back_populates="user_relationship")
 
     def to_dict(self):
         return {

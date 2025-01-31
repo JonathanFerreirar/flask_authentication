@@ -118,3 +118,19 @@ def update_comment_valitaions(data: Dict[str, str]):
 
             case _:
                 return ERRO_BAD_REQUEST
+
+
+def update_profile_valitaions(data: Dict[str, str]):
+    alredy_invalids = 0
+    quantity_of_items = len(data)
+
+    for _, value in data.items():
+
+        value_trated = remove_space(str(value))
+        if not value_trated:
+            alredy_invalids += 1
+
+    if alredy_invalids == quantity_of_items:
+        return {
+            "data": f'Por favor insira um campo válido para ser alterado'
+        }, 400
