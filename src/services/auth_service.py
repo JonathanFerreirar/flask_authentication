@@ -87,7 +87,7 @@ def create_new_user(data):
             database.flush()
             database.refresh(new_user)
 
-            access_token = create_access_token(identity=new_user.id)
+            access_token = create_access_token(identity=new_user.email)
 
             return {
                 "data": {
