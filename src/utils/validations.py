@@ -33,8 +33,9 @@ def user_validations(data: Dict[str, str]) -> Union[None, Tuple[Dict[str, str], 
 
 
 def etech_validations(data: Dict[str, str]) -> Union[None, Tuple[Dict[str, str], int]]:
+
     except_fields = ['image']
-    required_fields = ['user', 'price', 'title', 'topics', 'description']
+    required_fields = ['price', 'title', 'topics', 'description', 'language']
     return validate_required_fields(data, required_fields, except_fields)
 
 

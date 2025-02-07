@@ -1,14 +1,48 @@
+import json
+
 from models.etechs_model import Etech
+from infra.cloudinary import CloudinaryUploader
 from infra.database import get_database_session
 
-from dtos.etech import EtechCreateDTO, EtechUpdateDTO
+from dtos.etech import EtechUpdateDTO
+from flask_jwt_extended import get_current_user
 from utils.validations import etech_validations, update_etech_valitaions
 
-from erros import ERRO_MISS_BODY, ERRO_BAD_REQUEST, ERRO_ALREDY_EXIST, ERRO_NOT_FOUND
+
+from erros import ERRO_MISS_BODY, ERRO_BAD_REQUEST, ERRO_ALREDY_EXIST, ERRO_NOT_FOUND, ERRO_UPLOAD_FILE
 
 
-def create_new_etech(data: EtechCreateDTO):
+def create_new_etech(request):
+    price = request.form.get('price')
+    topics = request.form.get('topics')
+    title_form = request.form.get('title')
+    language = request.form.get('language')
+    description_form = request.form.get('description')
+
+    if topics:
+        try:
+            topics = json.loads(topics)
+        except json.JSONDecodeError:
+            topics = None
+
+    data = {
+        key: value
+        for key, value in {
+            "price": price,
+            "topics": topics,
+            "title": title_form,
+            "language": language,
+            "description": description_form,
+        }.items()
+        if value is not None
+    }
+
     validation_error = etech_validations(data)
+
+    user = get_current_user()
+    upload_file = CloudinaryUploader()
+
+    user_id = user['id']
 
     if validation_error:
         return validation_error
@@ -17,18 +51,25 @@ def create_new_etech(data: EtechCreateDTO):
         with get_database_session() as database:
 
             title = database.query(Etech).filter_by(
-                title=data['title']).first()
+                title=title_form).first()
             if title:
-                return ERRO_ALREDY_EXIST('title')
+                return ERRO_ALREDY_EXIST('mesmo titulo em outro etech. Por favor escolha um título diferente.')
 
             description = database.query(Etech).filter_by(
-                description=data['description']).first()
+                description=description_form).first()
 
             if description:
-                return ERRO_ALREDY_EXIST('description')
+                return ERRO_ALREDY_EXIST('mesma descrição em outro etech, Por favor escolha uma descrição diferente.')
 
-            new_etech = Etech(user=data['user'], price=data['price'], image=data['image'],
-                              title=data['title'], topics=data['topics'], description=data['description'])
+            file = request.files['file']
+
+            url_file = upload_file.upload_file(file, public_id=title_form)
+
+            if not url_file['success']:
+                return ERRO_UPLOAD_FILE
+
+            new_etech = Etech(user=user_id, price=price, language=language, image=url_file['secure_url'],
+                              title=title_form, topics=topics, description=description_form)
 
             database.add(new_etech)
             database.flush()

@@ -5,8 +5,10 @@ class EtechUpdateDTO(TypedDict, total=False):
     title: Optional[str]
     image: Optional[str]
     price: Optional[float]
-    topics: Optional[List[str]]
+    language: Optional[str]
     description: Optional[str]
+    topics: Optional[List[str]]
+    is_published: Optional[float]
 
 
 class EtechCreateDTO(TypedDict, total=True):
@@ -14,5 +16,6 @@ class EtechCreateDTO(TypedDict, total=True):
     title: str
     image: str
     price: float
+    language: str
     topics: List[str]
     description: str

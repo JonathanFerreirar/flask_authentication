@@ -14,9 +14,13 @@ class Etech(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     image: Mapped[str] = mapped_column(String(400), nullable=True)
-    price: Mapped[int] = mapped_column(nullable=False)
+    price: Mapped[float] = mapped_column(nullable=False)
     title: Mapped[str] = mapped_column(
         String(155), unique=True, nullable=False)
+    language: Mapped[str] = mapped_column(
+        String(155), unique=False, nullable=False)
+    is_published: Mapped[bool] = mapped_column(
+        unique=False, nullable=False, default=False)
     user: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     topics: Mapped[list[str]] = mapped_column(ARRAY(String), nullable=False)
     description: Mapped[str] = mapped_column(
@@ -39,9 +43,11 @@ class Etech(Base):
             "price": self.price,
             "title": self.title,
             "topics": self.topics,
+            "language": self.language,
             "create_at": self.create_at,
             "update_at": self.update_at,
             "description": self.description,
+            "is_published": self.is_published,
             "user": self.user_relationship.to_dict(),
         }
 

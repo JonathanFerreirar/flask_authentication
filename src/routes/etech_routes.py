@@ -11,14 +11,11 @@ etech_bp = Blueprint('etech', __name__)
 @etech_bp.route('/',  methods=['POST'])
 @jwt_required()
 def create_etech():
-    body = request.get_json()
 
-    user = get_current_user()
+    if 'file' not in request.files:
+        return jsonify({"error": "Missing required parameter - file"}), 400
 
-    if body['user'] != user['id']:
-        return ERRO_UNAUTHORIZED_USER
-
-    result, status = create_new_etech(body)
+    result, status = create_new_etech(request)
 
     return jsonify(result), status
 
