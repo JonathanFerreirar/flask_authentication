@@ -72,7 +72,7 @@ def update_chapter_valitaions(data: Dict[str, str]):
 
 def chapter_validations(data: Dict[str, str]) -> Union[None, Tuple[Dict[str, str], int]]:
 
-    required_fields = ['etech', 'title', 'chapter_number']
+    required_fields = ['etech', 'title']
     return validate_required_fields(data, required_fields)
 
 

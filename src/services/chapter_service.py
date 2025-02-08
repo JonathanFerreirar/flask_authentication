@@ -10,6 +10,20 @@ from utils.validations import chapter_validations, update_chapter_valitaions
 from erros import ERRO_UNAUTHORIZED_USER
 from erros import ERRO_NOT_FOUND, ERRO_ALREDY_EXIST, ERRO_BAD_REQUEST, ERRO_MISS_BODY
 
+from sqlalchemy.orm import Session
+from sqlalchemy import desc
+
+
+def get_last_chapter(database: Session, etech: int):
+
+    last_chapter = database.query(Chapter).filter(Chapter.etech == etech).order_by(
+        desc(Chapter.chapter_number)
+    ).first()
+
+    return {
+        "chapter_number": last_chapter.chapter_number if last_chapter else 0
+    }
+
 
 def create_new_chapter(data: ChapterCreateDTO):
     user = get_current_user()
@@ -24,14 +38,13 @@ def create_new_chapter(data: ChapterCreateDTO):
     try:
         with get_database_session() as database:
 
+            last_chapter = get_last_chapter(database, data['etech'])
+
+            new_chapter_number = last_chapter['chapter_number'] + 1
+
             title = database.query(Chapter).filter_by(
                 title=data['title'], etech=data['etech']).first()
             if title:
-                return ERRO_ALREDY_EXIST('chapter')
-
-            chapter_number = database.query(Chapter).filter_by(
-                chapter_number=data['chapter_number'], etech=data['etech']).first()
-            if chapter_number:
                 return ERRO_ALREDY_EXIST('chapter')
 
             etech = database.query(Etech).filter_by(
@@ -41,7 +54,7 @@ def create_new_chapter(data: ChapterCreateDTO):
                 return ERRO_UNAUTHORIZED_USER
 
             new_chapter = Chapter(
-                title=data['title'], etech=data['etech'], chapter_number=data['chapter_number'])
+                title=data['title'], etech=data['etech'], chapter_number=new_chapter_number)
 
             database.add(new_chapter)
             database.flush()
