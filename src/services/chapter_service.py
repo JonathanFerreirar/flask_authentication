@@ -95,7 +95,9 @@ def get_all_chapter_from_user(etech_id):
                 etech=etech_id).all()
 
             if not chapters:
-                return ERRO_NOT_FOUND('chapter')
+                return {
+                    "data": []
+                }, 200
 
             return {
                 "data": [chapter.to_dict() for chapter in chapters]

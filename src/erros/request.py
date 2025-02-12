@@ -18,3 +18,7 @@ def ERRO_NOT_FOUND(assumption: str):
 def ERRO_ALREDY_EXIST(assumption: str):
     return {"error": "conflict",
             "msg": f"Já existe esse {assumption}"}, 409
+
+
+ERRO_INVÁLID_USER = {"error": "unauthorized",
+                     "msg": ""}, 401

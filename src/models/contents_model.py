@@ -1,3 +1,5 @@
+import json
+
 from infra.base import Base
 
 from datetime import datetime
@@ -17,6 +19,8 @@ class Content(Base):
     content: Mapped[str] = mapped_column(
         String(1000), unique=False, nullable=False)
     page: Mapped[int] = mapped_column(unique=False, nullable=False)
+    title: Mapped[str] = mapped_column(
+        String(256), unique=False, nullable=True)
     images: Mapped[List[str]] = mapped_column(
         ARRAY(String), unique=False, nullable=True)
     create_at: Mapped[datetime] = mapped_column(
@@ -30,10 +34,19 @@ class Content(Base):
         "Chapter", back_populates="content_relationship")
 
     def to_dict(self):
+        tratted_images = ''
+
+        try:
+            tratted_images = [json.loads(image) for image in self.images]
+        except:
+
+            tratted_images = [image for image in self.images]
 
         return {
             "id": self.id,
             "page": self.page,
+            "title": self.title,
+            "images": tratted_images,
             "content": self.content,
             "chapter": self.chapter,
             "create_at": self.create_at,
@@ -45,6 +58,8 @@ class Content(Base):
         return {
             "id": self.id,
             "page": self.page,
+            "title": self.title,
+            "images": [json.loads(image) for image in self.images],
             "content": self.content,
             "create_at": self.create_at,
             "update_at": self.update_at,

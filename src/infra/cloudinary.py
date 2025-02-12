@@ -5,6 +5,7 @@ import cloudinary.uploader
 from dotenv import load_dotenv
 from cloudinary.exceptions import Error
 
+
 load_dotenv()
 
 
@@ -19,9 +20,6 @@ class CloudinaryUploader:
         )
 
     def upload_file(self, file_path: str, public_id: str, asset_folder: str = 'etechs') -> dict:
-
-        if not public_id:
-            return {"success": False, "error": str('Por favor adicione um public_id')}
         """
         Faz o upload de um arquivo para o Cloudinary.
 
@@ -34,6 +32,7 @@ class CloudinaryUploader:
             dict: Retorna o URL seguro do arquivo ou mensagem de erro.
         """
         try:
+
             # Realiza o upload no Cloudinary
             upload_result = cloudinary.uploader.upload(
                 file_path,
@@ -41,6 +40,32 @@ class CloudinaryUploader:
                 display_name=public_id,
                 asset_folder=asset_folder
             )
-            return {"success": True, "secure_url": upload_result.get("secure_url")}
+            return {"success": True, "secure_url": upload_result.get("secure_url"), "id":  upload_result.get("public_id")}
+        except Error as e:
+            return {"success": False, "error": str(e)}
+
+    def update_file(self, file_path: str, public_id: str, asset_folder: str = 'etechs') -> dict:
+
+        if not public_id:
+            return {"success": False, "error": str('Por favor adicione um public_id')}
+
+        """
+        Faz o upload de um arquivo para o Cloudinary.
+
+        Args:
+            file_path (str): Caminho do arquivo ou URL.
+            public_id (str): Public ID é usado para identificar o arquivo no Cloudinary.
+            asset_folder (str, default='etechs'): Pasta onde o arquivo será armazenado no Cloudinary.
+
+        Returns:
+            dict: Retorna o URL seguro do arquivo ou mensagem de erro.
+        """
+        try:
+            upload_result = cloudinary.uploader.upload(
+                file_path,
+                public_id=public_id,
+                asset_folder=asset_folder
+            )
+            return {"success": True, "secure_url": upload_result.get("secure_url"), "id":  upload_result.get("public_id")}
         except Error as e:
             return {"success": False, "error": str(e)}

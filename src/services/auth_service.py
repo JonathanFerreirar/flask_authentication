@@ -8,7 +8,7 @@ from utils.validations import login_validations, user_validations
 
 from flask_jwt_extended import create_access_token, get_jwt
 
-from erros import ERRO_NOT_FOUND, ERRO_INVALID_EMAIL_OR_PASSWORD, ERRO_ALREDY_EXIST
+from erros import ERRO_NOT_FOUND, ERRO_INVALID_EMAIL_OR_PASSWORD, ERRO_ALREDY_EXIST, ERRO_INVÁLID_USER
 
 
 @jwt.token_in_blocklist_loader
@@ -28,6 +28,9 @@ def user_lookup_callback(_, jwt_data):
 
         user = database.query(User).filter_by(email=identity).first()
         database.close()
+
+        if not user:
+            return None
 
         return user.to_dict()
 

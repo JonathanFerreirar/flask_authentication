@@ -1,7 +1,7 @@
 from erros import ERRO_UNAUTHORIZED_USER
 
 from flask import jsonify, request, Blueprint
-from flask_jwt_extended import jwt_required, get_current_user
+from flask_jwt_extended import jwt_required
 from services.etech_service import create_new_etech, get_etech_by_id, get_all_etechs, update_etech
 
 

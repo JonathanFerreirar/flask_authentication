@@ -79,13 +79,20 @@ def chapter_validations(data: Dict[str, str]) -> Union[None, Tuple[Dict[str, str
 def content_validations(data: Dict[str, str]) -> Union[None, Tuple[Dict[str, str], int]]:
 
     except_fields = ['images']
-    required_fields = ['chapter', 'content', 'page']
+    required_fields = ['chapter', 'content']
     return validate_required_fields(data, required_fields, except_fields)
 
 
 def update_content_valitaions(data: Dict[str, str]):
     for key, value in data.items():
         match key:
+            case 'title':
+                value_trated = remove_space(str(value))
+                if not value_trated:
+                    return {
+                        "data": f'Por favor insira um valor válido para o campo ( {key} ).'
+                    }, 400
+
             case 'content':
                 value_trated = remove_space(str(value))
                 if not value_trated:
