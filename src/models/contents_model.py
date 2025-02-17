@@ -55,11 +55,19 @@ class Content(Base):
         }
 
     def to_dict_with_chapter(self):
+        tratted_images = ''
+
+        try:
+            tratted_images = [json.loads(image) for image in self.images]
+        except:
+
+            tratted_images = [image for image in self.images]
+
         return {
             "id": self.id,
             "page": self.page,
             "title": self.title,
-            "images": [json.loads(image) for image in self.images],
+            "images": tratted_images,
             "content": self.content,
             "create_at": self.create_at,
             "update_at": self.update_at,

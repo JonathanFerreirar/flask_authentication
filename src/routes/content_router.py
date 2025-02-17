@@ -1,3 +1,5 @@
+import re
+
 from erros import ERRO_UNAUTHORIZED_USER
 
 from flask import jsonify, request, Blueprint
@@ -77,16 +79,22 @@ def update_cotent_router(content_id):
     files = request.files
     images = []
 
-    for index, img in enumerate(files.values()):
+    print("FILEEEEEEEEEEESSSSSSSSSSS", files)
 
-        img_name = request.form.get(f'name-{index}')
-        img_id = request.form.get(f'id-{index}')
+    for key, img in files.items():
+        
+        match = re.search(r'\d+', key)
+        file_index = match.group() if match else None 
+        
+        img_name = request.form.get(f'name-{file_index}')
+        img_id = request.form.get(f'id-{file_index}')
 
         image_obj = {
             "id": img_id,
             "image": img,
             "name": img_name
         }
+        
         images.append(image_obj)
 
     data = {

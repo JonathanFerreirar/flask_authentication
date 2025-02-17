@@ -148,13 +148,6 @@ def get_contents_quantity_by_chapter(chapter_id):
             contents = database.query(Content).filter_by(
                 chapter=chapter_id).count()
 
-            print(contents)
-
-            if not contents:
-                return {
-                    "data": 0
-                }, 200
-
             return {
                 "data": contents
             }, 200
@@ -203,6 +196,7 @@ def update_content(data: ContentUpdateDTO, content_id):
 
             chapter = content.to_dict_with_chapter()
 
+            
             if not chapter:
                 return ERRO_NOT_FOUND('chapter')
 
@@ -221,37 +215,67 @@ def update_content(data: ContentUpdateDTO, content_id):
                         content.content = value
 
                     case 'images':
-                        files = []
+                        
+                        actual_images = content.images
+                        files = [*actual_images]
 
                         for file_obj in value:
                             img_id = file_obj['id']
+                            url_file = None
 
                             if img_id:
-                                url_file = upload_file.update_file(
-                                    file_obj['image'], public_id=img_id, asset_folder='contents')
+                        
+                                existing_file_index = next(
+                                    (index for index, file in enumerate(files) if json.loads(file)['id'] == img_id),
+                                    None
+                                )
 
-                            if not img_id:
+                                
+                                url_file = upload_file.update_file(
+                                    file_obj['image'], public_id=img_id, asset_folder='contents'
+                                )
+
+                                if not url_file['success']:
+                                    return ERRO_UPLOAD_FILE
+
+                                url_response = url_file['secure_url']
+                                url_response_id = url_file['id']
+
+                                updated_image_obj = {
+                                    "id": url_response_id,
+                                    "image": url_response,
+                                    "name": file_obj['name']
+                                }
+
+        
+                                if existing_file_index is not None:
+                                    files[existing_file_index] = json.dumps(updated_image_obj)
+                            else:
+                                
                                 random_value = generate_random_value(1, 999)
 
                                 url_file = upload_file.upload_file(
-                                    file_obj['image'], public_id=random_value, asset_folder='contents')
+                                    file_obj['image'], public_id=random_value, asset_folder='contents'
+                                )
 
-                            if not url_file['success']:
-                                return ERRO_UPLOAD_FILE
+                                if not url_file['success']:
+                                    return ERRO_UPLOAD_FILE
 
-                            url_response = url_file['secure_url']
-                            url_response_id = url_file['id']
+                                url_response = url_file['secure_url']
+                                url_response_id = url_file['id']
 
-                            image_obj = {
-                                "id": url_response_id,
-                                "image": url_response,
-                                "name": file_obj['name']
-                            }
+                                new_image_obj = {
+                                    "id": url_response_id,
+                                    "image": url_response,
+                                    "name": file_obj['name']
+                                }
 
-                            files.append(json.dumps(image_obj))
+                                files.append(json.dumps(new_image_obj))
 
+                        
                         content.images = files
                         break
+                        
 
                     case _:
                         return ERRO_BAD_REQUEST
